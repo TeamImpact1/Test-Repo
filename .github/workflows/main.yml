@@ -46,16 +46,16 @@ jobs:
       - name: Add Issue to project
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          PR_ID: ${{ github.event.issue.node_id }}
+          ISSUE_ID: ${{ github.event.issue.node_id }}
         run: |
           item_id="$( gh api graphql -f query='
-            mutation($project:ID!, $pr:ID!) {
-              addProjectV2ItemById(input: {projectId: $project, contentId: $pr}) {
+            mutation($project:ID!, $issueId:ID!) {
+              addProjectV2ItemById(input: {projectId: $project, contentId: $issueId}) {
                 item {
                   id
                 }
               }
-            }' -f project=$PROJECT_ID -f pr=$PR_ID --jq '.data.addProjectV2ItemById.item.id')"
+            }' -f project=$PROJECT_ID -f issueId=$ISSUE_ID --jq '.data.addProjectV2ItemById.item.id')"
 
             echo 'ITEM_ID='$item_id >> $GITHUB_ENV
 
