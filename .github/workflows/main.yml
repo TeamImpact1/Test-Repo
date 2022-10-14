@@ -5,6 +5,7 @@ on:
       - labeled
 jobs:
   track_issue:
+    if: github.event.label.name == 'bug'
     runs-on: ubuntu-latest
     steps:
       - name: Get project data
