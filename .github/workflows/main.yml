@@ -1,9 +1,8 @@
 name: Add PR to project
 on:
-  pull_request:
+  issues:
     types:
-      - opened
-      - ready_for_review
+      - labeled
 jobs:
   track_pr:
     runs-on: ubuntu-latest
@@ -46,7 +45,7 @@ jobs:
 
       - name: Add PR to project
         env:
-          GITHUB_TOKEN: ${{ secrets.YOUR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           PR_ID: ${{ github.event.pull_request.node_id }}
         run: |
           item_id="$( gh api graphql -f query='
@@ -65,7 +64,7 @@ jobs:
 
       - name: Set fields
         env:
-          GITHUB_TOKEN: ${{ secrets.YOUR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         run: |
           gh api graphql -f query='
             mutation (
